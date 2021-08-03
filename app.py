@@ -9,7 +9,7 @@ import streamlit as st
 # Set local variables
 # --------------------------------------------------
 # https://www.datalineo.com/post/power-bi-rest-api-with-python-and-microsoft-authentication-library-msal
-client_id = st.secrets["client_id"])
+client_id = st.secrets["client_id"]
 Query_text='{ "queries": [{"query":"evaluate topn(5,suburb)"}], "serializerSettings":{"incudeNulls": true}}'
 
 # --------------------------------------------------
