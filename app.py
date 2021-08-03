@@ -10,14 +10,15 @@ import streamlit as st
 # --------------------------------------------------
 # Set local variables
 # --------------------------------------------------
-
+# you need to register your app to get the client id, if microsft is reading this please find a better way
 client_id = st.secrets["client_id"]
 username = st.secrets["username"]
 password = st.secrets["password"]
-authority_url = st.secrets["authority_url"]
-scope = st.secrets["scope"]
-url_groups = st.secrets["url_groups"]
-url_Query= st.secrets["url_Query"]
+#using personal domain projectscontrols, replace with your domain
+authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
+scope = ["https://analysis.windows.net/powerbi/api/.default"]
+url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/74dd6816-3c74-4c18-91bd-086669c4d749/executeQueries'
+#DAX Query reritun 5 rows from a table suburb
 Query_text='{ "queries": [{"query":"evaluate topn(5,suburb)"}], "serializerSettings":{"incudeNulls": true}}'
 
 # --------------------------------------------------
