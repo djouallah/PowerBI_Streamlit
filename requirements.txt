@@ -1,2 +1,3 @@
 msal
 streamlit
+json
