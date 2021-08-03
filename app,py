@@ -9,6 +9,7 @@ import streamlit as st
 # Set local variables
 # --------------------------------------------------
 # https://www.datalineo.com/post/power-bi-rest-api-with-python-and-microsoft-authentication-library-msal
+Query_text='{ "queries": [{"query":"evaluate topn(5,suburb)"}], "serializerSettings":{"incudeNulls": true}}'
 
 # --------------------------------------------------
 # Use MSAL to grab a token
