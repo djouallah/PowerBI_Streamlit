@@ -1,3 +1,5 @@
+# adapted from https://www.datalineo.com/post/power-bi-rest-api-with-python-and-microsoft-authentication-library-msal
+
 import msal
 import requests
 import json
@@ -8,8 +10,14 @@ import streamlit as st
 # --------------------------------------------------
 # Set local variables
 # --------------------------------------------------
-# https://www.datalineo.com/post/power-bi-rest-api-with-python-and-microsoft-authentication-library-msal
+
 client_id = st.secrets["client_id"]
+username = st.secrets["username"]
+password = st.secrets["password"]
+authority_url = st.secrets["authority_url"]
+scope = st.secrets["scope"]
+url_groups = st.secrets["url_groups"]
+url_Query= st.secrets["url_Query"]
 Query_text='{ "queries": [{"query":"evaluate topn(5,suburb)"}], "serializerSettings":{"incudeNulls": true}}'
 
 # --------------------------------------------------
