@@ -38,7 +38,7 @@ if 'access_token' in result:
     api_out.encoding='utf-8-sig'
     j = api_out.json()
     df = pd.DataFrame.from_dict(j)
-    st.write(df)
+    st.write(json.dumps(j))
 else:
     print(result.get("error"))
     print(result.get("error_description"))
