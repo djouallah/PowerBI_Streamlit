@@ -34,10 +34,14 @@ if 'access_token' in result:
     access_token = result['access_token']
     header = {'Content-Type':'application/json','Authorization': f'Bearer {access_token}'}
     api_out = requests.post(url=url_Query,data=Query_text, headers=header)
-    #api_out = requests.get(url=url_groups, headers=header)
-    j = api_out.json(encoding='utf-8-sig')
+    api_out.encoding='utf-8-sig'
+    
+    j = api_out.json()
     df = pd.DataFrame.from_dict(j)
-    #print(df)
+    print(df)
+    st.write(df)
+    
+    
     st.write(df)
 else:
     print(result.get("error"))
