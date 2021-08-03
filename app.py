@@ -19,7 +19,7 @@ authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
 url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/74dd6816-3c74-4c18-91bd-086669c4d749/executeQueries'
 #DAX Query reritun 5 rows from a table suburb
-Query_text='{ "queries": [{"query":"evaluate topn(2,suburb)"}], "serializerSettings":{"incudeNulls": true}}'
+Query_text='{ "queries": [{"query":"evaluate topn(5,suburb)"}], "serializerSettings":{"incudeNulls": true}}'
 
 # --------------------------------------------------
 # Use MSAL to grab a token
@@ -37,8 +37,9 @@ if 'access_token' in result:
     api_out = requests.post(url=url_Query,data=Query_text, headers=header)
     api_out.encoding='utf-8-sig'
     j = api_out.json()
-    df = pd.DataFrame.from_dict(j)
-    st.write(json.dumps(j))
+    jj = j['results'][0]['tables'][0]['rows']
+    df = pd.DataFrame(jj)
+    st.write(df)
 else:
     print(result.get("error"))
     print(result.get("error_description"))
