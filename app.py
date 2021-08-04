@@ -57,7 +57,7 @@ if 'access_token' in result:
     DAX_Query2=  """ "EVALUATE
        SUMMARIZECOLUMNS(
        Generator_list[StationName],
-       MstDate[Month],
+       MstDate[day],
        KEEPFILTERS( TREATAS( {"""+tt+""""}, Generator_list[StationName] )),
        KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
        \\"GWh\\", [GWh])" """
