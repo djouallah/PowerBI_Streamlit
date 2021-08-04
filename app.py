@@ -70,6 +70,7 @@ if 'access_token' in result:
     df = pd.DataFrame(jj)
     st.title('Testing PowerBI API Access')
     st.write(df)
+    st.header('DAX Query')
     st.write(DAX_Query2)
 else:
     print(result.get("error"))
