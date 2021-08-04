@@ -69,6 +69,7 @@ if 'access_token' in result:
     jj = j['results'][0]['tables'][0]['rows']
     df = pd.DataFrame(jj)
     st.write(df)
+    st.write(DAX_Query2)
 else:
     print(result.get("error"))
     print(result.get("error_description"))
