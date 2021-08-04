@@ -17,9 +17,15 @@ password = st.secrets["password"]
 #using personal domain projectscontrols, replace with your domain
 authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
-url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/74dd6816-3c74-4c18-91bd-086669c4d749/executeQueries'
-#DAX Query reritun 5 rows from a table suburb
-Query_text='{ "queries": [{"query":"evaluate topn(5,suburb)"}], "serializerSettings":{"incudeNulls": true}}'
+url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/5ae65cd5-b8f1-4d0f-aba6-2e6bdb64c005/executeQueries'
+DAX_Query=  """ "EVALUATE
+SUMMARIZECOLUMNS(
+    Generator_list[StationName],
+    MstDate[Month],
+    KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
+    \\"GWh\\", [GWh])" """
+
+Query_text='{ "queries": [{"query":'+DAX_Query+'}], "serializerSettings":{"incudeNulls": true}}'
 
 # --------------------------------------------------
 # Use MSAL to grab a token
