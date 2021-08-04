@@ -17,15 +17,19 @@ password = st.secrets["password"]
 #using personal domain projectscontrols, replace with your domain
 authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
-url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/5ae65cd5-b8f1-4d0f-aba6-2e6bdb64c005/executeQueries'
-DAX_Query=  """ "EVALUATE
-SUMMARIZECOLUMNS(
-    Generator_list[StationName],
-    MstDate[Month],
-    KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
-    \\"GWh\\", [GWh])" """
 
-Query_text='{ "queries": [{"query":'+DAX_Query+'}], "serializerSettings":{"incudeNulls": true}}'
+
+url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/5ae65cd5-b8f1-4d0f-aba6-2e6bdb64c005/executeQueries'
+DAX_Query1=  """ "EVALUATE
+                  SUMMARIZECOLUMNS(
+                  Generator_list[StationName],
+                  KEEPFILTERS( FILTER( ALL( Generator_list[StationName] ), NOT( ISBLANK( Generator_list[StationName] )))),
+                  \\"GWh\\", [GWh])" """
+
+
+
+Query_text='{ "queries": [{"query":'+DAX_Query1+'}], "serializerSettings":{"incudeNulls": true}}'
+
 
 # --------------------------------------------------
 # Use MSAL to grab a token
@@ -40,6 +44,25 @@ result = app.acquire_token_by_username_password(username=username,password=passw
 if 'access_token' in result:
     access_token = result['access_token']
     header = {'Content-Type':'application/json','Authorization': f'Bearer {access_token}'}
+    api_out = requests.post(url=url_Query,data=Query_text, headers=header)
+    api_out.encoding='utf-8-sig'
+    
+    j = api_out.json()
+    jj = j['results'][0]['tables'][0]['rows']
+    df = pd.DataFrame(jj)
+    catalogue_Select= st.sidebar.selectbox('Select Station', df['Generator_list[StationName]'])
+    tt = '\\\"'+catalogue_Select+'\\'
+    
+    
+    DAX_Query2=  """ "EVALUATE
+       SUMMARIZECOLUMNS(
+       Generator_list[StationName],
+       MstDate[Month],
+       KEEPFILTERS( TREATAS( {"""+tt+""""}, Generator_list[StationName] )),
+       KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
+       \\"GWh\\", [GWh])" """
+    Query_text='{ "queries": [{"query":'+DAX_Query2+'}], "serializerSettings":{"incudeNulls": true}}'
+    
     api_out = requests.post(url=url_Query,data=Query_text, headers=header)
     api_out.encoding='utf-8-sig'
     j = api_out.json()
