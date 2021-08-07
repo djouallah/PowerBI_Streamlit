@@ -8,15 +8,7 @@ import streamlit as st
 import base64
 import altair as alt
 col1, col2, col3 = st.beta_columns(3)
-@st.cache
-def Run_Query(DAX_Query_Value,header_value,url_Query_value):
-      Query_text='{ "queries": [{"query":'+DAX_Query_Value+'}], "serializerSettings":{"incudeNulls": true}}'
-      api_out = requests.post(url=url_Query_value,data=Query_text, headers=header_value)
-      api_out.encoding='utf-8-sig'
-      out = api_out.json()
-      jj = out['results'][0]['tables'][0]['rows']
-      df = pd.DataFrame(jj)
-      return df
+
 
 # --------------------------------------------------
 # Set local variables
@@ -31,15 +23,15 @@ authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
 url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/5ae65cd5-b8f1-4d0f-aba6-2e6bdb64c005/executeQueries'
 
-DAX_Query1=  """ "EVALUATE
-                  SUMMARIZECOLUMNS(
-                  Generator_list[StationName],
-                  KEEPFILTERS( FILTER( ALL( Generator_list[StationName] ), NOT( ISBLANK( Generator_list[StationName] )))),
-                  \\"GWh\\", [GWh])" """
-
-
-
-
+@st.cache
+def Run_Query(DAX_Query_Value,header_value,url_Query_value):
+      Query_text='{ "queries": [{"query":'+DAX_Query_Value+'}], "serializerSettings":{"incudeNulls": true}}'
+      api_out = requests.post(url=url_Query_value,data=Query_text, headers=header_value)
+      api_out.encoding='utf-8-sig'
+      out = api_out.json()
+      jj = out['results'][0]['tables'][0]['rows']
+      df = pd.DataFrame(jj)
+      return df
 
 
 # --------------------------------------------------
@@ -57,6 +49,12 @@ if 'access_token' in result:
     access_token = result['access_token']
     header = {'Content-Type':'application/json','Authorization': f'Bearer {access_token}'}
     
+    DAX_Query1=  """ "EVALUATE
+                  SUMMARIZECOLUMNS(
+                  Generator_list[StationName],
+                  KEEPFILTERS( FILTER( ALL( Generator_list[StationName] ), NOT( ISBLANK( Generator_list[StationName] )))),
+                  \\"GWh\\", [GWh])" """
+
     dd= Run_Query(DAX_Query1,header,url_Query)
     catalogue_Select= st.sidebar.multiselect('Select Station', dd['Generator_list[StationName]'])
     granularity_Select= st.sidebar.selectbox('Select Level of Details', ['Month','Day'])
