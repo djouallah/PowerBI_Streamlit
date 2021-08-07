@@ -6,6 +6,7 @@ import json
 import pandas as pd
 import streamlit as st
 import base64
+import altair as alt
 
 # --------------------------------------------------
 # Set local variables
@@ -69,8 +70,11 @@ if 'access_token' in result:
     jj = j['results'][0]['tables'][0]['rows']
     df = pd.DataFrame(jj)
     st.title('Testing PowerBI API Access')
-    #st.bar_chart(df)
-    st.write(df)
+    df.columns = ['station', 'date','Gwh']
+    #st.write(df)
+    c = alt.Chart(df).mark_area().encode(
+        x='date', y='Gwh',tooltip=['date', 'Gwh', 'station'])
+    st.altair_chart(c, use_container_width=True)
     st.header('DAX Query')
     st.write(DAX_Query2)
 else:
