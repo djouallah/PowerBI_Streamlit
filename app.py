@@ -8,8 +8,8 @@ import streamlit as st
 import base64
 import altair as alt
 col1, col2 = st.beta_columns(2)
-col1.st.title('Testing PowerBI API Access')
-col2.st.write("[By Mimoune Djouallah](https://datamonkeysite.com/about/)")
+col1.title('Testing PowerBI API Access')
+col2.write("[By Mimoune Djouallah](https://datamonkeysite.com/about/)")
 
 # --------------------------------------------------
 # Set local variables
