@@ -8,6 +8,16 @@ import streamlit as st
 import base64
 import altair as alt
 col1, col2, col3 = st.beta_columns(3)
+@st.cache(suppress_st_warning=True)
+def Run_Query(DAX_Query2):
+      Query_text='{ "queries": [{"query":'+DAX_Query2+'}], "serializerSettings":{"incudeNulls": true}}'
+      api_out = requests.post(url=url_Query,data=Query_text, headers=header)
+      api_out.encoding='utf-8-sig'
+      j = api_out.json()
+      jj = j['results'][0]['tables'][0]['rows']
+      df = pd.DataFrame(jj)
+      df.columns = ['station', 'date','Gwh']
+      return df
 
 # --------------------------------------------------
 # Set local variables
@@ -15,7 +25,6 @@ col1, col2, col3 = st.beta_columns(3)
 client_id = st.secrets["client_id"]
 username = st.secrets["username"]
 password = st.secrets["password"]
-
 
 
 
@@ -75,16 +84,8 @@ if 'access_token' in result:
        KEEPFILTERS( FILTER( ALL( Generator_list[StationName] ), NOT( ISBLANK( Generator_list[StationName] )))),
        KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
        \\"GWh\\", [GWh])" """
-
-
-    Query_text='{ "queries": [{"query":'+DAX_Query2+'}], "serializerSettings":{"incudeNulls": true}}'
-    print(Query_text)
-    api_out = requests.post(url=url_Query,data=Query_text, headers=header)
-    api_out.encoding='utf-8-sig'
-    j = api_out.json()
-    jj = j['results'][0]['tables'][0]['rows']
-    df = pd.DataFrame(jj)
-    df.columns = ['station', 'date','Gwh']
+    
+    df = Run_Query(DAX_Query2)
     c = alt.Chart(df).mark_area().encode(
         x=alt.X('date', axis=alt.Axis(labels=False)),
         y='Gwh',color='station',tooltip=['date', 'Gwh', 'station'])
