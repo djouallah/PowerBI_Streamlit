@@ -75,7 +75,7 @@ if 'access_token' in result:
     df = pd.DataFrame(jj)
     df.columns = ['station', 'date','Gwh']
     #st.write(df)
-    c = alt.Chart(df).mark_area().encode(
+    c = alt.Chart(df).mark_bar().encode(
        x=alt.X('date', axis=alt.Axis(labels=False)),
         y='Gwh',tooltip=['date', 'Gwh', 'station'])
     
