@@ -7,22 +7,20 @@ import pandas as pd
 import streamlit as st
 import base64
 import altair as alt
-col1, col2, col3 = st.beta_columns(3)
-
-
+col1, col2, col3 = st.columns(3)
 
 # --------------------------------------------------
 # Set local variables
 # --------------------------------------------------
-# you need to register your app to get the client id, if microsft is reading this please find a better way
 client_id = st.secrets["client_id"]
 username = st.secrets["username"]
 password = st.secrets["password"]
-#using personal domain projectscontrols, replace with your domain
+
+
+
+
 authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
-
-
 url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/5ae65cd5-b8f1-4d0f-aba6-2e6bdb64c005/executeQueries'
 DAX_Query1=  """ "EVALUATE
                   SUMMARIZECOLUMNS(
@@ -54,30 +52,42 @@ if 'access_token' in result:
     j = api_out.json()
     jj = j['results'][0]['tables'][0]['rows']
     df = pd.DataFrame(jj)
-    catalogue_Select= st.sidebar.selectbox('Select Station', df['Generator_list[StationName]'])
-    granularity_Select= st.sidebar.selectbox('Select Level of Details', ['year','Month','Day'])
-    tt = '\\\"'+catalogue_Select+'\\'
+    catalogue_Select= st.sidebar.multiselect('Select Station', df['Generator_list[StationName]'])
+    granularity_Select= st.sidebar.selectbox('Select Level of Details', ['Month','Day'])
+    print(len(catalogue_Select))
     
     
-    DAX_Query2=  """ "EVALUATE
+    if len(catalogue_Select) != 0 :
+       xxxx = '\\",\\"'.join(catalogue_Select)
+       tt = '\\\"'+xxxx+'\\'
+       DAX_Query2=  """ "EVALUATE
        SUMMARIZECOLUMNS(
        Generator_list[StationName],
        MstDate["""+granularity_Select+"""],
        KEEPFILTERS( TREATAS( {"""+tt+""""}, Generator_list[StationName] )),
        KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
        \\"GWh\\", [GWh])" """
+    else:
+       DAX_Query2=  """ "EVALUATE
+       SUMMARIZECOLUMNS(
+       Generator_list[FuelSourceDescriptor],
+       MstDate["""+granularity_Select+"""],
+       KEEPFILTERS( FILTER( ALL( Generator_list[StationName] ), NOT( ISBLANK( Generator_list[StationName] )))),
+       KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
+       \\"GWh\\", [GWh])" """
+
+
     Query_text='{ "queries": [{"query":'+DAX_Query2+'}], "serializerSettings":{"incudeNulls": true}}'
-    
+    print(Query_text)
     api_out = requests.post(url=url_Query,data=Query_text, headers=header)
     api_out.encoding='utf-8-sig'
     j = api_out.json()
     jj = j['results'][0]['tables'][0]['rows']
     df = pd.DataFrame(jj)
     df.columns = ['station', 'date','Gwh']
-    #st.write(df)
-    c = alt.Chart(df).mark_bar().encode(
-       x=alt.X('date', axis=alt.Axis(labels=False)),
-        y='Gwh',tooltip=['date', 'Gwh', 'station'])
+    c = alt.Chart(df).mark_area().encode(
+        x=alt.X('date', axis=alt.Axis(labels=False)),
+        y='Gwh',color='station',tooltip=['date', 'Gwh', 'station'])
     
 else:
     print(result.get("error"))
@@ -110,6 +120,3 @@ col2.markdown(tmp_download_link, unsafe_allow_html=True)
 st.altair_chart(c, use_container_width=True)
 st.sidebar.header('DAX Query')
 st.sidebar.write(DAX_Query2)
-
-
-
