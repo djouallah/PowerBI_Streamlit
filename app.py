@@ -69,7 +69,8 @@ if 'access_token' in result:
     jj = j['results'][0]['tables'][0]['rows']
     df = pd.DataFrame(jj)
     st.title('Testing PowerBI API Access')
-    st.write(df)
+    st.bar_chart(df)
+    #st.write(df)
     st.header('DAX Query')
     st.write(DAX_Query2)
 else:
