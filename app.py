@@ -55,13 +55,14 @@ if 'access_token' in result:
     jj = j['results'][0]['tables'][0]['rows']
     df = pd.DataFrame(jj)
     catalogue_Select= st.sidebar.selectbox('Select Station', df['Generator_list[StationName]'])
+    granularity_Select= st.sidebar.selectbox('Select Level of Details', ['Month','Day'])
     tt = '\\\"'+catalogue_Select+'\\'
     
     
     DAX_Query2=  """ "EVALUATE
        SUMMARIZECOLUMNS(
        Generator_list[StationName],
-       MstDate[Month],
+       MstDate["""+granularity_Select+"""],
        KEEPFILTERS( TREATAS( {"""+tt+""""}, Generator_list[StationName] )),
        KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
        \\"GWh\\", [GWh])" """
@@ -75,7 +76,8 @@ if 'access_token' in result:
     df.columns = ['station', 'date','Gwh']
     #st.write(df)
     c = alt.Chart(df).mark_area().encode(
-        x='date', y='Gwh',tooltip=['date', 'Gwh', 'station'])
+       x=alt.X('date', axis=alt.Axis(labels=False)),
+        y='Gwh',tooltip=['date', 'Gwh', 'station'])
     
 else:
     print(result.get("error"))
