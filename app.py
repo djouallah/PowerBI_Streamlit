@@ -10,6 +10,7 @@ import altair as alt
 col1, col2 = st.beta_columns(2)
 col1.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
 col2.write("[By Mim](https://datamonkeysite.com/about/)")
+st.markdown(tmp_download_link, unsafe_allow_html=True)
 
 # --------------------------------------------------
 # Set local variables
@@ -104,7 +105,7 @@ def download_link(object_to_download, download_filename, download_link_text):
 
 # Examples
 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Download')
-st.markdown(tmp_download_link, unsafe_allow_html=True)
+
 
 
 
