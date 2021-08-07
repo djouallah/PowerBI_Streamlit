@@ -7,9 +7,8 @@ import pandas as pd
 import streamlit as st
 import base64
 import altair as alt
-col1, col2 = st.beta_columns(2)
-col1.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
-col2.write("[By Mim](https://datamonkeysite.com/about/)")
+col1, col2, col3 = st.beta_columns(3)
+
 
 
 # --------------------------------------------------
@@ -103,7 +102,9 @@ def download_link(object_to_download, download_filename, download_link_text):
 
 # Examples
 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Download')
-st.markdown(tmp_download_link, unsafe_allow_html=True)
+col1.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
+col3.write("[By Mim](https://datamonkeysite.com/about/)")
+col2.markdown(tmp_download_link, unsafe_allow_html=True)
 st.altair_chart(c, use_container_width=True)
 st.header('DAX Query')
 st.write(DAX_Query2)
