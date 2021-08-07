@@ -57,11 +57,11 @@ if 'access_token' in result:
     catalogue_Select= st.sidebar.selectbox('Select Station', df['Generator_list[StationName]'])
     granularity_Select= st.sidebar.selectbox('Select Level of Details', ['Month','Day'])
     tt = '\\\"'+catalogue_Select+'\\'
-    
+    #Generator_list[StationName],
     
     DAX_Query2=  """ "EVALUATE
        SUMMARIZECOLUMNS(
-       Generator_list[StationName],
+       
        MstDate["""+granularity_Select+"""],
        KEEPFILTERS( TREATAS( {"""+tt+""""}, Generator_list[StationName] )),
        KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
