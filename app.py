@@ -77,9 +77,7 @@ if 'access_token' in result:
     #st.write(df)
     c = alt.Chart(df).mark_area().encode(
         x='date', y='Gwh',tooltip=['date', 'Gwh', 'station'])
-    st.altair_chart(c, use_container_width=True)
-    st.header('DAX Query')
-    st.write(DAX_Query2)
+    
 else:
     print(result.get("error"))
     print(result.get("error_description"))
@@ -106,6 +104,9 @@ def download_link(object_to_download, download_filename, download_link_text):
 # Examples
 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Download')
 st.markdown(tmp_download_link, unsafe_allow_html=True)
+st.altair_chart(c, use_container_width=True)
+st.header('DAX Query')
+st.write(DAX_Query2)
 
 
 
