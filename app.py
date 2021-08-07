@@ -9,14 +9,13 @@ import base64
 import altair as alt
 col1, col2, col3 = st.beta_columns(3)
 @st.cache
-def Run_Query(DAX_Query2):
-      Query_text='{ "queries": [{"query":'+DAX_Query2+'}], "serializerSettings":{"incudeNulls": true}}'
-      api_out = requests.post(url=url_Query,data=Query_text, headers=header)
+def Run_Query(DAX_Query_Value,header_value,url_Query_value):
+      Query_text='{ "queries": [{"query":'+DAX_Query_Value+'}], "serializerSettings":{"incudeNulls": true}}'
+      api_out = requests.post(url=url_Query_value,data=Query_text, headers=header_value)
       api_out.encoding='utf-8-sig'
-      j = api_out.json()
-      jj = j['results'][0]['tables'][0]['rows']
+      out = api_out.json()
+      jj = out['results'][0]['tables'][0]['rows']
       df = pd.DataFrame(jj)
-      df.columns = ['station', 'date','Gwh']
       return df
 
 # --------------------------------------------------
@@ -31,6 +30,7 @@ password = st.secrets["password"]
 authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
 url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/5ae65cd5-b8f1-4d0f-aba6-2e6bdb64c005/executeQueries'
+
 DAX_Query1=  """ "EVALUATE
                   SUMMARIZECOLUMNS(
                   Generator_list[StationName],
@@ -48,6 +48,7 @@ Query_text='{ "queries": [{"query":'+DAX_Query1+'}], "serializerSettings":{"incu
 app = msal.PublicClientApplication(client_id, authority=authority_url)
 result = app.acquire_token_by_username_password(username=username,password=password,scopes=scope)
 
+
 # --------------------------------------------------
 # Check if a token was obtained, grab it and call the
 # Power BI REST API, otherwise throw up the error message
@@ -55,16 +56,11 @@ result = app.acquire_token_by_username_password(username=username,password=passw
 if 'access_token' in result:
     access_token = result['access_token']
     header = {'Content-Type':'application/json','Authorization': f'Bearer {access_token}'}
-    api_out = requests.post(url=url_Query,data=Query_text, headers=header)
-    api_out.encoding='utf-8-sig'
     
-    j = api_out.json()
-    jj = j['results'][0]['tables'][0]['rows']
-    df = pd.DataFrame(jj)
-    catalogue_Select= st.sidebar.multiselect('Select Station', df['Generator_list[StationName]'])
+    dd= Run_Query(DAX_Query1,header,url_Query)
+    catalogue_Select= st.sidebar.multiselect('Select Station', dd['Generator_list[StationName]'])
     granularity_Select= st.sidebar.selectbox('Select Level of Details', ['Month','Day'])
-    print(len(catalogue_Select))
-    
+        
     
     if len(catalogue_Select) != 0 :
        xxxx = '\\",\\"'.join(catalogue_Select)
@@ -85,8 +81,9 @@ if 'access_token' in result:
        KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
        \\"GWh\\", [GWh])" """
     
-    df = Run_Query(DAX_Query2)
-    c = alt.Chart(df).mark_area().encode(
+    dd= Run_Query(DAX_Query2,header,url_Query)
+    dd.columns = ['station', 'date','Gwh']
+    c = alt.Chart(dd).mark_area().encode(
         x=alt.X('date', axis=alt.Axis(labels=False)),
         y='Gwh',color='station',tooltip=['date', 'Gwh', 'station'])
     
@@ -114,7 +111,7 @@ def download_link(object_to_download, download_filename, download_link_text):
 
 
 # Examples
-tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Download')
+tmp_download_link = download_link(dd, 'YOUR_DF.csv', 'Download')
 col1.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
 col3.write("[By Mim](https://datamonkeysite.com/about/)")
 col2.markdown(tmp_download_link, unsafe_allow_html=True)
