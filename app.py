@@ -7,6 +7,9 @@ import pandas as pd
 import streamlit as st
 import base64
 import altair as alt
+col1, col2 = st.beta_columns(2)
+col1.st.title('Testing PowerBI API Access')
+col2.st.write("[By Mimoune Djouallah](https://datamonkeysite.com/about/)")
 
 # --------------------------------------------------
 # Set local variables
@@ -69,7 +72,6 @@ if 'access_token' in result:
     j = api_out.json()
     jj = j['results'][0]['tables'][0]['rows']
     df = pd.DataFrame(jj)
-    st.title('Testing PowerBI API Access')
     df.columns = ['station', 'date','Gwh']
     #st.write(df)
     c = alt.Chart(df).mark_area().encode(
@@ -103,6 +105,6 @@ def download_link(object_to_download, download_filename, download_link_text):
 # Examples
 tmp_download_link = download_link(df, 'YOUR_DF.csv', 'Download')
 st.markdown(tmp_download_link, unsafe_allow_html=True)
-st.write("[By Mimoune Djouallah](https://datamonkeysite.com/about/)")
+
 
 
