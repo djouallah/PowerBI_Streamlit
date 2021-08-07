@@ -55,7 +55,7 @@ if 'access_token' in result:
     jj = j['results'][0]['tables'][0]['rows']
     df = pd.DataFrame(jj)
     catalogue_Select= st.sidebar.selectbox('Select Station', df['Generator_list[StationName]'])
-    granularity_Select= st.sidebar.selectbox('Select Level of Details', ['Month','Day','time'])
+    granularity_Select= st.sidebar.selectbox('Select Level of Details', ['year','Month','Day'])
     tt = '\\\"'+catalogue_Select+'\\'
     
     
