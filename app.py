@@ -8,7 +8,7 @@ import streamlit as st
 import base64
 import altair as alt
 col1, col2, col3 = st.beta_columns(3)
-@st.cache(allow_output_mutation=True)
+@st.cache
 def Run_Query(DAX_Query2):
       Query_text='{ "queries": [{"query":'+DAX_Query2+'}], "serializerSettings":{"incudeNulls": true}}'
       api_out = requests.post(url=url_Query,data=Query_text, headers=header)
