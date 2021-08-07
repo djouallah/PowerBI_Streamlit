@@ -9,7 +9,7 @@ import base64
 import altair as alt
 col1, col2 = st.beta_columns(2)
 col1.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
-col2.write("[By Mimoune Djouallah](https://datamonkeysite.com/about/)")
+col2.write("[By Mim](https://datamonkeysite.com/about/)")
 
 # --------------------------------------------------
 # Set local variables
