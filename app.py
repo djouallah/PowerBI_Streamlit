@@ -39,7 +39,7 @@ DAX_Query1=  """ "EVALUATE
 
 
 
-Query_text='{ "queries": [{"query":'+DAX_Query1+'}], "serializerSettings":{"incudeNulls": true}}'
+
 
 
 # --------------------------------------------------
