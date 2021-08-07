@@ -109,7 +109,7 @@ col3.write("[By Mim](https://datamonkeysite.com/about/)")
 col2.markdown(tmp_download_link, unsafe_allow_html=True)
 st.altair_chart(c, use_container_width=True)
 st.header('DAX Query')
-st.write(DAX_Query2)
+st.sidebar.write(DAX_Query2)
 
 
 
