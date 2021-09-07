@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 import base64
 import altair as alt
-col1, col2, col3 = st.beta_columns(3)
+col1, col2, col3 = st.columns(3)
 
 
 # --------------------------------------------------
