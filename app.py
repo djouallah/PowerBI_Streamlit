@@ -109,10 +109,10 @@ def download_link(object_to_download, download_filename, download_link_text):
 
 
 # Examples
-tmp_download_link = download_link(dd, 'YOUR_DF.csv', 'Download')
+#tmp_download_link = download_link(dd, 'YOUR_DF.csv', 'Download')
 col1.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
 col3.write("[By Mim](https://datamonkeysite.com/about/)")
-col2.markdown(tmp_download_link, unsafe_allow_html=True)
+#col2.markdown(tmp_download_link, unsafe_allow_html=True)
 st.altair_chart(c, use_container_width=True)
 st.sidebar.header('DAX Query')
 st.sidebar.write(DAX_Query2)
