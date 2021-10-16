@@ -114,5 +114,5 @@ col1.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announci
 col3.write("[By Mim](https://datamonkeysite.com/about/)")
 #col2.markdown(tmp_download_link, unsafe_allow_html=True)
 #st.altair_chart(c, use_container_width=True)
-st.sidebar.header('DAX Query')
-st.sidebar.write(DAX_Query2)
+#st.sidebar.header('DAX Query')
+#st.sidebar.write(DAX_Query2)
