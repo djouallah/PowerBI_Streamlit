@@ -68,7 +68,7 @@ if 'access_token' in result:
        Generator_list[StationName],
        MstDate["""+granularity_Select+"""],
        KEEPFILTERS( TREATAS( {"""+tt+""""}, Generator_list[StationName] )),
-       KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
+       KEEPFILTERS( TREATAS( {\\"DUNIT\\"}, unit[unit] )),
        \\"GWh\\", [GWh])" """
     else:
        DAX_Query2=  """ "EVALUATE
@@ -76,7 +76,7 @@ if 'access_token' in result:
        Generator_list[FuelSourceDescriptor],
        MstDate["""+granularity_Select+"""],
        KEEPFILTERS( FILTER( ALL( Generator_list[StationName] ), NOT( ISBLANK( Generator_list[StationName] )))),
-       KEEPFILTERS( TREATAS( {\\"TUNIT\\"}, unit[unit] )),
+       KEEPFILTERS( TREATAS( {\\"DUNIT\\"}, unit[unit] )),
        \\"GWh\\", [GWh])" """
     
     dd= Run_Query(DAX_Query2,header,url_Query)
