@@ -57,7 +57,7 @@ if 'access_token' in result:
 
     dd= Run_Query(DAX_Query1,header,url_Query)
     catalogue_Select= st.sidebar.multiselect('Select Station', dd['Generator_list[StationName]'])
-    granularity_Select= st.sidebar.selectbox('Select Level of Details', ['Month','Day'])
+    granularity_Select= st.sidebar.selectbox('Select Level of Details', ['Month','Year'])
         
     
     if len(catalogue_Select) != 0 :
