@@ -21,7 +21,7 @@ password = st.secrets["password"]
 
 authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
-url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/5ae65cd5-b8f1-4d0f-aba6-2e6bdb64c005/executeQueries'
+url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/bb37e43d-3eab-4d25-98a9-35fe7372a72a/executeQueries'
 
 #@st.cache
 def Run_Query(DAX_Query_Value,header_value,url_Query_value):
