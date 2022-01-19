@@ -81,7 +81,7 @@ if 'access_token' in result:
     
     dd= Run_Query(DAX_Query2,header,url_Query)
     dd.columns = ['station', 'date','Gwh']
-    c = alt.Chart(dd).mark_area().encode(
+    c = alt.Chart(dd).mark_bar().encode(
         x=alt.X('date', axis=alt.Axis(labels=False)),
         y='Gwh',color='station',tooltip=['date', 'Gwh', 'station'])
     
