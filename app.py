@@ -23,7 +23,7 @@ authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
 url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/5ae65cd5-b8f1-4d0f-aba6-2e6bdb64c005/executeQueries'
 
-#@st.cache
+@st.cache
 def Run_Query(DAX_Query_Value,header_value,url_Query_value):
       Query_text='{ "queries": [{"query":'+DAX_Query_Value+'}], "serializerSettings":{"incudeNulls": true}}'
       api_out = requests.post(url=url_Query_value,data=Query_text, headers=header_value)
