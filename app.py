@@ -13,12 +13,12 @@ col1, col2, col3 = st.columns(3)
 # --------------------------------------------------
 # Set local variables
 # --------------------------------------------------
-client_id = st.secrets["client_id"]
+
 username = st.secrets["username"]
 password = st.secrets["password"]
 
 
-
+client_id = '7f67af8a-fedc-4b08-8b4e-37c4d127b6cf'
 authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
 url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/5ae65cd5-b8f1-4d0f-aba6-2e6bdb64c005/executeQueries'
