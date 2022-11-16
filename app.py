@@ -1,4 +1,5 @@
 # adapted from https://www.datalineo.com/post/power-bi-rest-api-with-python-and-microsoft-authentication-library-msal
+# thanks for https://twitter.com/GBrueckl for the trick on how to get the client_id without registring an App.
 
 import msal
 import requests
