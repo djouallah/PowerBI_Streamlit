@@ -93,7 +93,7 @@ def convert_df(df):
             return df.to_csv().encode('utf-8')
 
 csv = convert_df(dd)
-col2.download_button(
+col1.download_button(
             label="Download data as CSV",
             data=csv,
             file_name='large_df.csv',
@@ -106,3 +106,4 @@ st.altair_chart(c, use_container_width=True)
 st.sidebar.header('DAX Query')
 st.sidebar.write(DAX_Query2)
 st.sidebar.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
+st.sidebar.write("[Python Code](https://github.com/djouallah/PowerBI_Streamlit)")
