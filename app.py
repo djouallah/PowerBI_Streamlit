@@ -99,9 +99,9 @@ col1.download_button(
             mime='text/csv',
         )
 ###################
-col3.write("[By Mim](https://datamonkeysite.com/about/)")
 st.altair_chart(c, use_container_width=True)
 st.sidebar.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
 st.sidebar.write("[Python Code](https://github.com/djouallah/PowerBI_Streamlit)")
 st.sidebar.header('DAX Query')
 st.sidebar.write(DAX_Query2)
+st.sidebar.write("[By Mim](https://datamonkeysite.com/about/)")
