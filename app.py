@@ -100,8 +100,9 @@ col2.download_button(
             mime='text/csv',
         )
 ###################
-col1.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
+
 col3.write("[By Mim](https://datamonkeysite.com/about/)")
 st.altair_chart(c, use_container_width=True)
 st.sidebar.header('DAX Query')
 st.sidebar.write(DAX_Query2)
+st.sidebar.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
