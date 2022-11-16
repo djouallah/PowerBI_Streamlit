@@ -16,10 +16,11 @@ col1, col2, col3 = st.columns(3)
 
 username = st.secrets["username"]
 password = st.secrets["password"]
+authority_url = st.secrets["authority_url"]
 
 
 client_id = '7f67af8a-fedc-4b08-8b4e-37c4d127b6cf'
-authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
+
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
 url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/dd9ede3e-58bc-4097-8790-88bc0cfd41ea/executeQueries'
 
