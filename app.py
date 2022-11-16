@@ -10,17 +10,13 @@ import base64
 import altair as alt
 col1, col2, col3 = st.columns(3)
 
-
 # --------------------------------------------------
-# Set local variables
+# Authentification
 # --------------------------------------------------
 
 client_id = st.secrets["client_id"]  
 username =  st.secrets["username"]
 password =  st.secrets["password"]
-
-
-
 authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
 url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/bb37e43d-3eab-4d25-98a9-35fe7372a72a/executeQueries'
@@ -90,30 +86,22 @@ if 'access_token' in result:
 else:
     print(result.get("error"))
     print(result.get("error_description"))
-#download
-def download_link(object_to_download, download_filename, download_link_text):
-    """
-    Generates a link to download the given object_to_download.
-    object_to_download (str, pd.DataFrame):  The object to be downloaded.
-    download_filename (str): filename and extension of file. e.g. mydata.csv, some_txt_output.txt
-    download_link_text (str): Text to display for download link.
-    Examples:
-    download_link(YOUR_DF, 'YOUR_DF.csv', 'Click here to download data!')
-    download_link(YOUR_STRING, 'YOUR_STRING.txt', 'Click here to download your text!')
-    """
-    if isinstance(object_to_download,pd.DataFrame):
-        object_to_download = object_to_download.to_csv(index=False)
 
-    # some strings <-> bytes conversions necessary here
-    b64 = base64.b64encode(object_to_download.encode()).decode()
+#Download Button
+def convert_df(df):
+            # IMPORTANT: Cache the conversion to prevent computation on every rerun
+            return df.to_csv().encode('utf-8')
 
-    return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
-
-# Examples
-tmp_download_link = download_link(dd, 'YOUR_DF.csv', 'Download')
+csv = convert_df(dd)
+col2.download_button(
+            label="Download data as CSV",
+            data=csv,
+            file_name='large_df.csv',
+            mime='text/csv',
+        )
+###################
 col1.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
 col3.write("[By Mim](https://datamonkeysite.com/about/)")
-col2.markdown(tmp_download_link, unsafe_allow_html=True)
 st.altair_chart(c, use_container_width=True)
 st.sidebar.header('DAX Query')
 st.sidebar.write(DAX_Query2)
