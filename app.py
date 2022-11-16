@@ -7,6 +7,11 @@ import json
 import pandas as pd
 import streamlit as st
 import altair as alt
+st.set_page_config(
+    page_title="PowerBI DAX REST API",
+    page_icon="✅",
+    layout="wide",
+                  )
 col1, col2, col3 = st.columns(3)
 
 # --------------------------------------------------
