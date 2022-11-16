@@ -14,15 +14,15 @@ col1, col2, col3 = st.columns(3)
 # Set local variables
 # --------------------------------------------------
 
-username = st.secrets["username"]
-password = st.secrets["password"]
-authority_url = st.secrets["authority_url"]
+client_id = st.secrets["client_id"]  
+username =  st.secrets["username"]
+password =  st.secrets["password"]
 
 
-client_id = '7f67af8a-fedc-4b08-8b4e-37c4d127b6cf'
 
+authority_url = 'https://login.microsoftonline.com/projectscontrols.com'
 scope = ["https://analysis.windows.net/powerbi/api/.default"]
-url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/xxxxxxx/executeQueries'
+url_Query= 'https://api.powerbi.com/v1.0/myorg/datasets/bb37e43d-3eab-4d25-98a9-35fe7372a72a/executeQueries'
 
 @st.cache
 def Run_Query(DAX_Query_Value,header_value,url_Query_value):
@@ -108,5 +108,11 @@ def download_link(object_to_download, download_filename, download_link_text):
 
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
-
-
+# Examples
+tmp_download_link = download_link(dd, 'YOUR_DF.csv', 'Download')
+col1.write("[PowerBI Data API](https://powerbi.microsoft.com/en-us/blog/announcing-the-public-preview-of-power-bi-rest-api-support-for-dax-queries/)")
+col3.write("[By Mim](https://datamonkeysite.com/about/)")
+col2.markdown(tmp_download_link, unsafe_allow_html=True)
+st.altair_chart(c, use_container_width=True)
+st.sidebar.header('DAX Query')
+st.sidebar.write(DAX_Query2)
