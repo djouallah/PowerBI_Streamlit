@@ -56,9 +56,8 @@ if 'access_token' in result:
                   Generator_list[StationName],
                   KEEPFILTERS( FILTER( ALL( Generator_list[StationName] ), NOT( ISBLANK( Generator_list[StationName] )))),
                   \\"GWh\\", [GWh])" """
-
-    dd= Run_Query(DAX_Query1,header,url_Query)
-    catalogue_Select= st.sidebar.multiselect('Select Station', dd['Generator_list[StationName]'])
+    if df is None:df= Run_Query(DAX_Query1,header,url_Query)
+    catalogue_Select= st.sidebar.multiselect('Select Station', df['Generator_list[StationName]'])
     granularity_Select= st.sidebar.selectbox('Select Level of Details', ['Month','day'])
         
     
