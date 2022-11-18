@@ -47,6 +47,7 @@ result = app.acquire_token_by_username_password(username=username,password=passw
 # Check if a token was obtained, grab it and call the
 # Power BI REST API, otherwise throw up the error message
 # --------------------------------------------------
+df = pd.DataFrame()
 if 'access_token' in result:
     access_token = result['access_token']
     header = {'Content-Type':'application/json','Authorization': f'Bearer {access_token}'}
