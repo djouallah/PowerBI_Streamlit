@@ -47,7 +47,7 @@ result = app.acquire_token_by_username_password(username=username,password=passw
 # Check if a token was obtained, grab it and call the
 # Power BI REST API, otherwise throw up the error message
 # --------------------------------------------------
-df = pd.DataFrame()
+
 if 'access_token' in result:
     access_token = result['access_token']
     header = {'Content-Type':'application/json','Authorization': f'Bearer {access_token}'}
@@ -57,7 +57,7 @@ if 'access_token' in result:
                   Generator_list[StationName],
                   KEEPFILTERS( FILTER( ALL( Generator_list[StationName] ), NOT( ISBLANK( Generator_list[StationName] )))),
                   \\"GWh\\", [GWh])" """
-    if df is None:df= Run_Query(DAX_Query1,header,url_Query)
+    df= Run_Query(DAX_Query1,header,url_Query)
     catalogue_Select= st.sidebar.multiselect('Select Station', df['Generator_list[StationName]'])
     granularity_Select= st.sidebar.selectbox('Select Level of Details', ['Month','day'])
         
